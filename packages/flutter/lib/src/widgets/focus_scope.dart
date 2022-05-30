@@ -494,7 +494,7 @@ class _FocusState extends State<Focus> {
     _couldRequestFocus = focusNode.canRequestFocus;
     _descendantsWereFocusable = focusNode.descendantsAreFocusable;
     _hadPrimaryFocus = focusNode.hasPrimaryFocus;
-    _focusAttachment = focusNode.attach(context, onKeyEvent: widget.onKeyEvent, onKey: widget.onKey);
+    _focusAttachment = focusNode.attach(context(), onKeyEvent: widget.onKeyEvent, onKey: widget.onKey);
 
     // Add listener even if the _internalNode existed before, since it should
     // not be listening now if we're re-using a previous one because it should
@@ -533,7 +533,7 @@ class _FocusState extends State<Focus> {
 
   void _handleAutofocus() {
     if (!_didAutofocus && widget.autofocus) {
-      FocusScope.of(context).autofocus(focusNode);
+      FocusScope.of(context()).autofocus(focusNode);
       _didAutofocus = true;
     }
   }

@@ -223,7 +223,7 @@ class _CupertinoContextMenuState extends State<CupertinoContextMenu> with Ticker
   // it.
   _ContextMenuLocation get _contextMenuLocation {
     final Rect childRect = _getRect(_childGlobalKey);
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context()).size.width;
 
     final double center = screenWidth / 2;
     final bool centerDividesChild = childRect.left < center
@@ -262,7 +262,7 @@ class _CupertinoContextMenuState extends State<CupertinoContextMenu> with Ticker
         return widget.previewBuilder!(context, animation, widget.child);
       },
     );
-    Navigator.of(context, rootNavigator: true).push<void>(_route!);
+    Navigator.of(context(), rootNavigator: true).push<void>(_route!);
     _route!.animation!.addStatusListener(_routeAnimationStatusListener);
   }
 
@@ -361,7 +361,7 @@ class _CupertinoContextMenuState extends State<CupertinoContextMenu> with Ticker
         );
       },
     );
-    Overlay.of(context, rootOverlay: true)!.insert(_lastOverlayEntry!);
+    Overlay.of(context(), rootOverlay: true)!.insert(_lastOverlayEntry!);
     _openController.forward();
   }
 
@@ -897,7 +897,7 @@ class _ContextMenuRouteStaticState extends State<_ContextMenuRouteStatic> with T
 
     // Dismiss if the drag is enough to scale down all the way.
     if (_lastScale == _kMinScale) {
-      widget.onDismiss!(context, _lastScale, _sheetOpacityAnimation.value);
+      widget.onDismiss!(context(), _lastScale, _sheetOpacityAnimation.value);
       return;
     }
 
@@ -930,7 +930,7 @@ class _ContextMenuRouteStaticState extends State<_ContextMenuRouteStatic> with T
     if (_moveAnimation.value.dy == 0.0) {
       return;
     }
-    widget.onDismiss!(context, _lastScale, _sheetOpacityAnimation.value);
+    widget.onDismiss!(context(), _lastScale, _sheetOpacityAnimation.value);
   }
 
   Alignment _getChildAlignment(Orientation orientation, _ContextMenuLocation contextMenuLocation) {

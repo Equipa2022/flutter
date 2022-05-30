@@ -600,7 +600,7 @@ class _DraggableScrollableSheetState extends State<DraggableScrollableSheet> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_InheritedResetNotifier.shouldReset(context)) {
+    if (_InheritedResetNotifier.shouldReset(context())) {
       _scrollController.reset();
     }
   }

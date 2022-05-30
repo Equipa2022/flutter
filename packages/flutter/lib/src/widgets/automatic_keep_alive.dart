@@ -108,7 +108,7 @@ class _AutomaticKeepAliveState extends State<AutomaticKeepAlive> {
   /// the first build of that child has not completed yet.
   ParentDataElement<KeepAliveParentDataMixin>? _getChildElement() {
     assert(mounted);
-    final Element element = context as Element;
+    final Element element = context() as Element;
     Element? childElement;
     // We use Element.visitChildren rather than context.visitChildElements
     // because we might be called during build, and context.visitChildElements
@@ -137,7 +137,7 @@ class _AutomaticKeepAliveState extends State<AutomaticKeepAlive> {
   }
 
   void _updateParentDataOfChild(ParentDataElement<KeepAliveParentDataMixin> childElement) {
-    childElement.applyWidgetOutOfTurn(build(context) as ParentDataWidget<KeepAliveParentDataMixin>);
+    childElement.applyWidgetOutOfTurn(build(context()) as ParentDataWidget<KeepAliveParentDataMixin>);
   }
 
   VoidCallback _createCallback(Listenable handle) {
@@ -347,7 +347,7 @@ mixin AutomaticKeepAliveClientMixin<T extends StatefulWidget> on State<T> {
   void _ensureKeepAlive() {
     assert(_keepAliveHandle == null);
     _keepAliveHandle = KeepAliveHandle();
-    KeepAliveNotification(_keepAliveHandle!).dispatch(context);
+    KeepAliveNotification(_keepAliveHandle!).dispatch(context());
   }
 
   void _releaseKeepAlive() {

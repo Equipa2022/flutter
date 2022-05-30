@@ -108,7 +108,7 @@ class _TickerModeState extends State<TickerMode> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _ancestorTicketMode = TickerMode.of(context);
+    _ancestorTicketMode = TickerMode.of(context());
     _updateEffectiveMode();
   }
 
@@ -243,7 +243,7 @@ mixin SingleTickerProviderStateMixin<T extends StatefulWidget> on State<T> imple
   }
 
   void _updateTickerModeNotifier() {
-    final ValueNotifier<bool> newNotifier = TickerMode.getNotifier(context);
+    final ValueNotifier<bool> newNotifier = TickerMode.getNotifier(context());
     if (newNotifier == _tickerModeNotifier) {
       return;
     }
@@ -324,7 +324,7 @@ mixin TickerProviderStateMixin<T extends StatefulWidget> on State<T> implements 
   }
 
   void _updateTickerModeNotifier() {
-    final ValueNotifier<bool> newNotifier = TickerMode.getNotifier(context);
+    final ValueNotifier<bool> newNotifier = TickerMode.getNotifier(context());
     if (newNotifier == _tickerModeNotifier) {
       return;
     }

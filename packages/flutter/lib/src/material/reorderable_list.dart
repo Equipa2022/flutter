@@ -267,14 +267,14 @@ class _ReorderableListViewState extends State<ReorderableListView> {
     // before index+2, which is after the space at index+1.
     void moveAfter() => reorder(index, index + 2);
 
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
 
     // If the item can move to before its current position in the list.
     if (index > 0) {
       semanticsActions[CustomSemanticsAction(label: localizations.reorderItemToStart)] = moveToStart;
       String reorderItemBefore = localizations.reorderItemUp;
       if (widget.scrollDirection == Axis.horizontal) {
-        reorderItemBefore = Directionality.of(context) == TextDirection.ltr
+        reorderItemBefore = Directionality.of(context()) == TextDirection.ltr
             ? localizations.reorderItemLeft
             : localizations.reorderItemRight;
       }
@@ -285,7 +285,7 @@ class _ReorderableListViewState extends State<ReorderableListView> {
     if (index < widget.itemCount - 1) {
       String reorderItemAfter = localizations.reorderItemDown;
       if (widget.scrollDirection == Axis.horizontal) {
-        reorderItemAfter = Directionality.of(context) == TextDirection.ltr
+        reorderItemAfter = Directionality.of(context()) == TextDirection.ltr
             ? localizations.reorderItemRight
             : localizations.reorderItemLeft;
       }

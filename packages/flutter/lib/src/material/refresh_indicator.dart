@@ -247,7 +247,7 @@ class RefreshIndicatorState extends State<RefreshIndicator> with TickerProviderS
 
   @override
   void didChangeDependencies() {
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context());
     _valueColor = _positionController.drive(
       ColorTween(
         begin: (widget.color ?? theme.colorScheme.primary).withOpacity(0.0),
@@ -263,7 +263,7 @@ class RefreshIndicatorState extends State<RefreshIndicator> with TickerProviderS
   void didUpdateWidget(covariant RefreshIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.color != widget.color) {
-      final ThemeData theme = Theme.of(context);
+      final ThemeData theme = Theme.of(context());
       _valueColor = _positionController.drive(
         ColorTween(
           begin: (widget.color ?? theme.colorScheme.primary).withOpacity(0.0),

@@ -552,7 +552,7 @@ class _MaterialSwitchState extends State<_MaterialSwitch> with TickerProviderSta
   }
 
   MaterialStateProperty<Color> get _defaultThumbColor {
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context());
     final bool isDark = theme.brightness == Brightness.dark;
 
     return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
@@ -579,7 +579,7 @@ class _MaterialSwitchState extends State<_MaterialSwitch> with TickerProviderSta
   }
 
   MaterialStateProperty<Color> get _defaultTrackColor {
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context());
     final bool isDark = theme.brightness == Brightness.dark;
     const Color black32 = Color(0x52000000); // Black with 32% opacity
 
@@ -609,7 +609,7 @@ class _MaterialSwitchState extends State<_MaterialSwitch> with TickerProviderSta
         ..curve = Curves.linear
         ..reverseCurve = null;
       final double delta = details.primaryDelta! / _trackInnerLength;
-      switch (Directionality.of(context)) {
+      switch (Directionality.of(context())) {
         case TextDirection.rtl:
           positionController.value -= delta;
           break;

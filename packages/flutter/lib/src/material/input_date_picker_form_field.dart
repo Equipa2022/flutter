@@ -172,7 +172,7 @@ class _InputDatePickerFormFieldState extends State<InputDatePickerFormField> {
 
   void _updateValueForSelectedDate() {
     if (_selectedDate != null) {
-      final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+      final MaterialLocalizations localizations = MaterialLocalizations.of(context());
       _inputText = localizations.formatCompactDate(_selectedDate!);
       TextEditingValue textEditingValue = _controller.value.copyWith(text: _inputText);
       // Select the new text if we are auto focused and haven't selected the text before.
@@ -191,7 +191,7 @@ class _InputDatePickerFormFieldState extends State<InputDatePickerFormField> {
   }
 
   DateTime? _parseDate(String? text) {
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
     return localizations.parseCompactDate(text);
   }
 
@@ -206,9 +206,9 @@ class _InputDatePickerFormFieldState extends State<InputDatePickerFormField> {
   String? _validateDate(String? text) {
     final DateTime? date = _parseDate(text);
     if (date == null) {
-      return widget.errorFormatText ?? MaterialLocalizations.of(context).invalidDateFormatLabel;
+      return widget.errorFormatText ?? MaterialLocalizations.of(context()).invalidDateFormatLabel;
     } else if (!_isValidAcceptableDate(date)) {
-      return widget.errorInvalidText ?? MaterialLocalizations.of(context).dateOutOfRangeLabel;
+      return widget.errorInvalidText ?? MaterialLocalizations.of(context()).dateOutOfRangeLabel;
     }
     return null;
   }

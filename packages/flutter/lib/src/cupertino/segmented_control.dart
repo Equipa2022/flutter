@@ -220,22 +220,22 @@ class _SegmentedControlState<T extends Object> extends State<CupertinoSegmentedC
   bool _updateColors() {
     assert(mounted, 'This should only be called after didUpdateDependencies');
     bool changed = false;
-    final Color selectedColor = widget.selectedColor ?? CupertinoTheme.of(context).primaryColor;
+    final Color selectedColor = widget.selectedColor ?? CupertinoTheme.of(context()).primaryColor;
     if (_selectedColor != selectedColor) {
       changed = true;
       _selectedColor = selectedColor;
     }
-    final Color unselectedColor = widget.unselectedColor ?? CupertinoTheme.of(context).primaryContrastingColor;
+    final Color unselectedColor = widget.unselectedColor ?? CupertinoTheme.of(context()).primaryContrastingColor;
     if (_unselectedColor != unselectedColor) {
       changed = true;
       _unselectedColor = unselectedColor;
     }
-    final Color borderColor = widget.borderColor ?? CupertinoTheme.of(context).primaryColor;
+    final Color borderColor = widget.borderColor ?? CupertinoTheme.of(context()).primaryColor;
     if (_borderColor != borderColor) {
       changed = true;
       _borderColor = borderColor;
     }
-    final Color pressedColor = widget.pressedColor ?? CupertinoTheme.of(context).primaryColor.withOpacity(0.2);
+    final Color pressedColor = widget.pressedColor ?? CupertinoTheme.of(context()).primaryColor.withOpacity(0.2);
     if (_pressedColor != pressedColor) {
       changed = true;
       _pressedColor = pressedColor;

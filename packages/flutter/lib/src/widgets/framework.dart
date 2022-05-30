@@ -936,7 +936,7 @@ abstract class State<T extends StatefulWidget> with Diagnosticable {
   ///
   /// After calling [dispose], the framework severs the [State] object's
   /// connection with the [BuildContext].
-  BuildContext get context {
+  BuildContext context() {
     assert(() {
       if (_element == null) {
         throw FlutterError(
@@ -967,7 +967,7 @@ abstract class State<T extends StatefulWidget> with Diagnosticable {
   /// it creates.
   ///
   /// Override this method to perform initialization that depends on the
-  /// location at which this object was inserted into the tree (i.e., [context])
+  /// location at which this object was inserted into the tree (i.e., [context()])
   /// or on the widget used to configure this object (i.e., [widget]).
   ///
   /// {@template flutter.widgets.State.initState}
@@ -1991,7 +1991,7 @@ typedef ElementVisitor = void Function(Element element);
 /// [StatelessWidget.build] methods and from methods on [State] objects.
 ///
 /// [BuildContext] objects are passed to [WidgetBuilder] functions (such as
-/// [StatelessWidget.build]), and are available from the [State.context] member.
+/// [StatelessWidget.build]), and are available from the [State.context()] member.
 /// Some static functions (e.g. [showDialog], [Theme.of], and so forth) also
 /// take build contexts so that they can act on behalf of the calling widget, or
 /// obtain data specifically for the given context.

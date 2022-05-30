@@ -182,11 +182,11 @@ class _CalendarDatePickerState extends State<CalendarDatePicker> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    assert(debugCheckHasMaterial(context));
-    assert(debugCheckHasMaterialLocalizations(context));
-    assert(debugCheckHasDirectionality(context));
-    _localizations = MaterialLocalizations.of(context);
-    _textDirection = Directionality.of(context);
+    assert(debugCheckHasMaterial(context()));
+    assert(debugCheckHasMaterialLocalizations(context()));
+    assert(debugCheckHasDirectionality(context()));
+    _localizations = MaterialLocalizations.of(context());
+    _textDirection = Directionality.of(context());
     if (!_announcedInitialDate) {
       _announcedInitialDate = true;
       SemanticsService.announce(
@@ -197,7 +197,7 @@ class _CalendarDatePickerState extends State<CalendarDatePicker> {
   }
 
   void _vibrate() {
-    switch (Theme.of(context).platform) {
+    switch (Theme.of(context()).platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
@@ -524,8 +524,8 @@ class _MonthPickerState extends State<_MonthPicker> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _localizations = MaterialLocalizations.of(context);
-    _textDirection = Directionality.of(context);
+    _localizations = MaterialLocalizations.of(context());
+    _textDirection = Directionality.of(context());
   }
 
   @override
@@ -717,7 +717,7 @@ class _MonthPickerState extends State<_MonthPicker> {
   }
 
   DateTime? _nextDateInDirection(DateTime date, TraversalDirection direction) {
-    final TextDirection textDirection = Directionality.of(context);
+    final TextDirection textDirection = Directionality.of(context());
     DateTime nextDate = DateUtils.addDaysToDate(date, _dayDirectionOffset(direction, textDirection));
     while (!nextDate.isBefore(widget.firstDate) && !nextDate.isAfter(widget.lastDate)) {
       if (_isSelectable(nextDate)) {
@@ -900,7 +900,7 @@ class _DayPickerState extends State<_DayPicker> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Check to see if the focused date is in this month, if so focus it.
-    final DateTime? focusedDate = _FocusedDate.of(context);
+    final DateTime? focusedDate = _FocusedDate.of(context());
     if (focusedDate != null && DateUtils.isSameMonth(widget.displayedMonth, focusedDate)) {
       _dayFocusNodes[focusedDate.day - 1].requestFocus();
     }

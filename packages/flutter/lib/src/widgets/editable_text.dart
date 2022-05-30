@@ -1716,7 +1716,7 @@ class EditableTextState extends State<EditableText> with AutomaticKeepAliveClien
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final AutofillGroupState? newAutofillGroup = AutofillGroup.of(context);
+    final AutofillGroupState? newAutofillGroup = AutofillGroup.of(context());
     if (currentAutofillScope != newAutofillGroup) {
       _currentAutofillScope?.unregister(autofillId);
       _currentAutofillScope = newAutofillGroup;
@@ -1727,13 +1727,13 @@ class EditableTextState extends State<EditableText> with AutomaticKeepAliveClien
       _didAutoFocus = true;
       SchedulerBinding.instance!.addPostFrameCallback((_) {
         if (mounted && renderEditable.hasSize) {
-          FocusScope.of(context).autofocus(widget.focusNode);
+          FocusScope.of(context()).autofocus(widget.focusNode);
         }
       });
     }
 
     // Restart or stop the blinking cursor when TickerMode changes.
-    final bool newTickerEnabled = TickerMode.of(context);
+    final bool newTickerEnabled = TickerMode.of(context());
     if (_tickersEnabled != newTickerEnabled) {
       _tickersEnabled = newTickerEnabled;
       if (_tickersEnabled && _cursorActive) {
@@ -2354,7 +2354,7 @@ class EditableTextState extends State<EditableText> with AutomaticKeepAliveClien
       if (_selectionOverlay == null) {
         _selectionOverlay = TextSelectionOverlay(
           clipboardStatus: _clipboardStatus,
-          context: context,
+          context: context(),
           value: _value,
           debugRequiredFor: widget,
           toolbarLayerLink: _toolbarLayerLink,
@@ -2710,7 +2710,7 @@ class EditableTextState extends State<EditableText> with AutomaticKeepAliveClien
   }
 
   TextDirection get _textDirection {
-    final TextDirection result = widget.textDirection ?? Directionality.of(context);
+    final TextDirection result = widget.textDirection ?? Directionality.of(context());
     assert(result != null, '$runtimeType created without a textDirection and with no ambient Directionality.');
     return result;
   }
@@ -2724,7 +2724,7 @@ class EditableTextState extends State<EditableText> with AutomaticKeepAliveClien
   @override
   TextEditingValue get textEditingValue => _value;
 
-  double get _devicePixelRatio => MediaQuery.of(context).devicePixelRatio;
+  double get _devicePixelRatio => MediaQuery.of(context()).devicePixelRatio;
 
   @override
   void userUpdateTextEditingValue(TextEditingValue value, SelectionChangedCause? cause) {
@@ -2910,7 +2910,7 @@ class EditableTextState extends State<EditableText> with AutomaticKeepAliveClien
   _TextBoundary _documentBoundary(DirectionalTextEditingIntent intent) => _DocumentBoundary(_value);
 
   Action<T> _makeOverridable<T extends Intent>(Action<T> defaultAction) {
-    return Action<T>.overridable(context: context, defaultAction: defaultAction);
+    return Action<T>.overridable(context: context(), defaultAction: defaultAction);
   }
 
   void _replaceText(ReplaceTextIntent intent) {
@@ -3069,7 +3069,7 @@ class EditableTextState extends State<EditableText> with AutomaticKeepAliveClien
     }
     // Read only mode should not paint text composing.
     return widget.controller.buildTextSpan(
-      context: context,
+      context: context(),
       style: widget.style,
       withComposing: !widget.readOnly && _hasFocus,
     );

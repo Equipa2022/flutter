@@ -955,10 +955,10 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    assert(debugCheckHasMediaQuery(context));
-    themeData = Theme.of(context);
-    localizations = MaterialLocalizations.of(context);
-    media = MediaQuery.of(context);
+    assert(debugCheckHasMediaQuery(context()));
+    themeData = Theme.of(context());
+    localizations = MaterialLocalizations.of(context());
+    media = MediaQuery.of(context());
   }
 
   @override
@@ -1054,7 +1054,7 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
   void _handlePanStart(DragStartDetails details) {
     assert(!_dragging);
     _dragging = true;
-    final RenderBox box = context.findRenderObject()! as RenderBox;
+    final RenderBox box = context().findRenderObject()! as RenderBox;
     _position = box.globalToLocal(details.globalPosition);
     _center = box.size.center(Offset.zero);
     _updateThetaForPan();
@@ -1079,20 +1079,20 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
   }
 
   void _handleTapUp(TapUpDetails details) {
-    final RenderBox box = context.findRenderObject()! as RenderBox;
+    final RenderBox box = context().findRenderObject()! as RenderBox;
     _position = box.globalToLocal(details.globalPosition);
     _center = box.size.center(Offset.zero);
     _updateThetaForPan(roundMinutes: true);
     final TimeOfDay newTime = _notifyOnChangedIfNeeded(roundMinutes: true);
     if (widget.mode == _TimePickerMode.hour) {
       if (widget.use24HourDials) {
-        _announceToAccessibility(context, localizations.formatDecimal(newTime.hour));
+        _announceToAccessibility(context(), localizations.formatDecimal(newTime.hour));
       } else {
-        _announceToAccessibility(context, localizations.formatDecimal(newTime.hourOfPeriod));
+        _announceToAccessibility(context(), localizations.formatDecimal(newTime.hourOfPeriod));
       }
       widget.onHourSelected?.call();
     } else {
-      _announceToAccessibility(context, localizations.formatDecimal(newTime.minute));
+      _announceToAccessibility(context(), localizations.formatDecimal(newTime.minute));
     }
     _animateTo(_getThetaForTime(_getTimeForTheta(_theta.value, roundMinutes: true)));
     _dragging = false;
@@ -1101,7 +1101,7 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
   }
 
   void _selectHour(int hour) {
-    _announceToAccessibility(context, localizations.formatDecimal(hour));
+    _announceToAccessibility(context(), localizations.formatDecimal(hour));
     final TimeOfDay time;
     if (widget.mode == _TimePickerMode.hour && widget.use24HourDials) {
       time = TimeOfDay(hour: hour, minute: widget.selectedTime.minute);
@@ -1120,7 +1120,7 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
   }
 
   void _selectMinute(int minute) {
-    _announceToAccessibility(context, localizations.formatDecimal(minute));
+    _announceToAccessibility(context(), localizations.formatDecimal(minute));
     final TimeOfDay time = TimeOfDay(
       hour: widget.selectedTime.hour,
       minute: minute,
@@ -1164,7 +1164,7 @@ class _DialState extends State<_Dial> with SingleTickerProviderStateMixin {
 
   _TappableLabel _buildTappableLabel(TextTheme textTheme, Color color, int value, String label, VoidCallback onTap) {
     final TextStyle style = textTheme.bodyText1!.copyWith(color: color);
-    final double labelScaleFactor = math.min(MediaQuery.of(context).textScaleFactor, 2.0);
+    final double labelScaleFactor = math.min(MediaQuery.of(context()).textScaleFactor, 2.0);
     return _TappableLabel(
       value: value,
       painter: TextPainter(
@@ -1360,7 +1360,7 @@ class _TimePickerInputState extends State<_TimePickerInput> with RestorationMixi
       return null;
     }
 
-    if (MediaQuery.of(context).alwaysUse24HourFormat) {
+    if (MediaQuery.of(context()).alwaysUse24HourFormat) {
       if (newHour >= 0 && newHour < 24) {
         return newHour;
       }
@@ -1404,7 +1404,7 @@ class _TimePickerInputState extends State<_TimePickerInput> with RestorationMixi
     final int? newHour = _parseHour(value);
     if (newHour != null && value.length == 2) {
       // If a valid hour is typed, move focus to the minute TextField.
-      FocusScope.of(context).nextFocus();
+      FocusScope.of(context()).nextFocus();
     }
   }
 
@@ -1700,8 +1700,8 @@ class _HourMinuteTextFieldState extends State<_HourMinuteTextField> with Restora
   }
 
   String get _formattedValue {
-    final bool alwaysUse24HourFormat = MediaQuery.of(context).alwaysUse24HourFormat;
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final bool alwaysUse24HourFormat = MediaQuery.of(context()).alwaysUse24HourFormat;
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
     return !widget.isHour ? localizations.formatMinute(widget.selectedTime) : localizations.formatHour(
       widget.selectedTime,
       alwaysUse24HourFormat: alwaysUse24HourFormat,
@@ -1985,7 +1985,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> with RestorationMix
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    localizations = MaterialLocalizations.of(context);
+    localizations = MaterialLocalizations.of(context());
     _announceInitialTimeOnce();
     _announceModeOnce();
   }
@@ -2019,7 +2019,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> with RestorationMix
   late MaterialLocalizations localizations;
 
   void _vibrate() {
-    switch (Theme.of(context).platform) {
+    switch (Theme.of(context()).platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
@@ -2069,10 +2069,10 @@ class _TimePickerDialogState extends State<TimePickerDialog> with RestorationMix
 
     switch (_mode.value) {
       case _TimePickerMode.hour:
-        _announceToAccessibility(context, localizations.timePickerHourModeAnnouncement);
+        _announceToAccessibility(context(), localizations.timePickerHourModeAnnouncement);
         break;
       case _TimePickerMode.minute:
-        _announceToAccessibility(context, localizations.timePickerMinuteModeAnnouncement);
+        _announceToAccessibility(context(), localizations.timePickerMinuteModeAnnouncement);
         break;
     }
     _lastModeAnnounced.value = _mode.value;
@@ -2082,10 +2082,10 @@ class _TimePickerDialogState extends State<TimePickerDialog> with RestorationMix
     if (_announcedInitialTime.value)
       return;
 
-    final MediaQueryData media = MediaQuery.of(context);
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MediaQueryData media = MediaQuery.of(context());
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
     _announceToAccessibility(
-      context,
+      context(),
       localizations.formatTimeOfDay(widget.initialTime, alwaysUse24HourFormat: media.alwaysUse24HourFormat),
     );
     _announcedInitialTime.value = true;
@@ -2115,7 +2115,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> with RestorationMix
   }
 
   void _handleCancel() {
-    Navigator.pop(context);
+    Navigator.pop(context());
   }
 
   void _handleOk() {
@@ -2127,7 +2127,7 @@ class _TimePickerDialogState extends State<TimePickerDialog> with RestorationMix
       }
       form.save();
     }
-    Navigator.pop(context, _selectedTime.value);
+    Navigator.pop(context(), _selectedTime.value);
   }
 
   Size _dialogSize(BuildContext context) {

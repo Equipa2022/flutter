@@ -885,11 +885,11 @@ class _TabBarState extends State<TabBar> {
   Decoration get _indicator {
     if (widget.indicator != null)
       return widget.indicator!;
-    final TabBarTheme tabBarTheme = TabBarTheme.of(context);
+    final TabBarTheme tabBarTheme = TabBarTheme.of(context());
     if (tabBarTheme.indicator != null)
       return tabBarTheme.indicator!;
 
-    Color color = widget.indicatorColor ?? Theme.of(context).indicatorColor;
+    Color color = widget.indicatorColor ?? Theme.of(context()).indicatorColor;
     // ThemeData tries to avoid this by having indicatorColor avoid being the
     // primaryColor. However, it's possible that the tab bar is on a
     // Material that isn't the primaryColor. In that case, if the indicator
@@ -904,7 +904,7 @@ class _TabBarState extends State<TabBar> {
     // TODO(xu-baolin): Remove automatic adjustment to white color indicator
     // with a better long-term solution.
     // https://github.com/flutter/flutter/pull/68171#pullrequestreview-517753917
-    if (widget.automaticIndicatorColorAdjustment && color.value == Material.of(context)?.color?.value)
+    if (widget.automaticIndicatorColorAdjustment && color.value == Material.of(context())?.color?.value)
       color = Colors.white;
 
     return UnderlineTabIndicator(
@@ -921,7 +921,7 @@ class _TabBarState extends State<TabBar> {
   bool get _controllerIsValid => _controller?.animation != null;
 
   void _updateTabController() {
-    final TabController? newController = widget.controller ?? DefaultTabController.of(context);
+    final TabController? newController = widget.controller ?? DefaultTabController.of(context());
     assert(() {
       if (newController == null) {
         throw FlutterError(
@@ -954,7 +954,7 @@ class _TabBarState extends State<TabBar> {
     _indicatorPainter = !_controllerIsValid ? null : _IndicatorPainter(
       controller: _controller!,
       indicator: _indicator,
-      indicatorSize: widget.indicatorSize ?? TabBarTheme.of(context).indicatorSize,
+      indicatorSize: widget.indicatorSize ?? TabBarTheme.of(context()).indicatorSize,
       indicatorPadding: widget.indicatorPadding,
       tabKeys: _tabKeys,
       old: _indicatorPainter,
@@ -964,7 +964,7 @@ class _TabBarState extends State<TabBar> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    assert(debugCheckHasMaterial(context));
+    assert(debugCheckHasMaterial(context()));
     _updateTabController();
     _initIndicatorPainter();
   }
@@ -1008,7 +1008,7 @@ class _TabBarState extends State<TabBar> {
     if (!widget.isScrollable)
       return 0.0;
     double tabCenter = _indicatorPainter!.centerOf(index);
-    switch (Directionality.of(context)) {
+    switch (Directionality.of(context())) {
       case TextDirection.rtl:
         tabCenter = _tabStripWidth - tabCenter;
         break;
@@ -1314,7 +1314,7 @@ class _TabBarViewState extends State<TabBarView> {
   bool get _controllerIsValid => _controller?.animation != null;
 
   void _updateTabController() {
-    final TabController? newController = widget.controller ?? DefaultTabController.of(context);
+    final TabController? newController = widget.controller ?? DefaultTabController.of(context());
     assert(() {
       if (newController == null) {
         throw FlutterError(

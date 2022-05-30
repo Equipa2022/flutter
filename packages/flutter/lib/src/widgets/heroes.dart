@@ -359,7 +359,7 @@ class _HeroState extends State<Hero> {
   void startFlight({ bool shouldIncludedChildInPlaceholder = false }) {
     _shouldIncludeChild = shouldIncludedChildInPlaceholder;
     assert(mounted);
-    final RenderBox box = context.findRenderObject()! as RenderBox;
+    final RenderBox box = context().findRenderObject()! as RenderBox;
     assert(box != null && box.hasSize);
     setState(() {
       _placeholderSize = box.size;
@@ -477,13 +477,13 @@ class _HeroFlightManifest {
   /// The bounding box of [fromHero], in [fromRoute]'s coordinate space.
   ///
   /// This property should only be accessed in [_HeroFlight.start].
-  late final Rect fromHeroLocation = _boundingBoxFor(fromHero.context, fromRoute.subtreeContext);
+  late final Rect fromHeroLocation = _boundingBoxFor(fromHero.context(), fromRoute.subtreeContext);
 
   /// The bounding box of [toHero], in [toRoute]'s coordinate space.
   ///
   /// This property should only be accessed in [_HeroFlight.start] or
   /// [_HeroFlight.divert].
-  late final Rect toHeroLocation = _boundingBoxFor(toHero.context, toRoute.subtreeContext);
+  late final Rect toHeroLocation = _boundingBoxFor(toHero.context(), toRoute.subtreeContext);
 
   /// Whether this [_HeroFlightManifest] is valid and can be used to start or
   /// divert a [_HeroFlight].
@@ -529,8 +529,8 @@ class _HeroFlight {
       context,
       manifest.animation,
       manifest.type,
-      manifest.fromHero.context,
-      manifest.toHero.context,
+      manifest.fromHero.context(),
+      manifest.toHero.context(),
     );
     assert(shuttle != null);
 
@@ -608,7 +608,7 @@ class _HeroFlight {
 
   void onTick() {
     final RenderBox? toHeroBox = (!_aborted && manifest.toHero.mounted)
-      ? manifest.toHero.context.findRenderObject() as RenderBox?
+      ? manifest.toHero.context().findRenderObject() as RenderBox?
       : null;
     // Try to find the new origin of the toHero, if the flight isn't aborted.
     final Offset? toHeroOrigin = toHeroBox != null && toHeroBox.attached && toHeroBox.hasSize
@@ -910,7 +910,7 @@ class HeroController extends NavigatorObserver {
     if (navigator == null || overlay == null)
       return;
 
-    final RenderObject? navigatorRenderObject = navigator.context.findRenderObject();
+    final RenderObject? navigatorRenderObject = navigator.context().findRenderObject();
 
     if (navigatorRenderObject is! RenderBox) {
       assert(false, 'Navigator $navigator has an invalid RenderObject type ${navigatorRenderObject.runtimeType}.');

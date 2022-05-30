@@ -122,7 +122,7 @@ class _SnackBarActionState extends State<SnackBarAction> {
       _haveTriggeredAction = true;
     });
     widget.onPressed();
-    Scaffold.of(context).hideCurrentSnackBar(reason: SnackBarClosedReason.action);
+    Scaffold.of(context()).hideCurrentSnackBar(reason: SnackBarClosedReason.action);
   }
 
   @override

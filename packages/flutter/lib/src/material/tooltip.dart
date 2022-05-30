@@ -358,12 +358,12 @@ class _TooltipState extends State<Tooltip> with SingleTickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _visible = TooltipVisibility.of(context);
+    _visible = TooltipVisibility.of(context());
   }
 
   // https://material.io/components/tooltips#specs
   double _getDefaultTooltipHeight() {
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context());
     switch (theme.platform) {
       case TargetPlatform.macOS:
       case TargetPlatform.linux:
@@ -377,7 +377,7 @@ class _TooltipState extends State<Tooltip> with SingleTickerProviderStateMixin {
   }
 
   EdgeInsets _getDefaultPadding() {
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context());
     switch (theme.platform) {
       case TargetPlatform.macOS:
       case TargetPlatform.linux:
@@ -391,7 +391,7 @@ class _TooltipState extends State<Tooltip> with SingleTickerProviderStateMixin {
   }
 
   double _getDefaultFontSize() {
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context());
     switch (theme.platform) {
       case TargetPlatform.macOS:
       case TargetPlatform.linux:
@@ -481,7 +481,7 @@ class _TooltipState extends State<Tooltip> with SingleTickerProviderStateMixin {
     _showTimer = null;
     if (!_entry!.mounted) {
       final OverlayState overlayState = Overlay.of(
-        context,
+        context(),
         debugRequiredFor: widget,
       )!;
       overlayState.insert(_entry!);
@@ -532,21 +532,21 @@ class _TooltipState extends State<Tooltip> with SingleTickerProviderStateMixin {
 
   void _createNewEntry() {
     final OverlayState overlayState = Overlay.of(
-      context,
+      context(),
       debugRequiredFor: widget,
     )!;
 
-    final RenderBox box = context.findRenderObject()! as RenderBox;
+    final RenderBox box = context().findRenderObject()! as RenderBox;
     final Offset target = box.localToGlobal(
       box.size.center(Offset.zero),
-      ancestor: overlayState.context.findRenderObject(),
+      ancestor: overlayState.context().findRenderObject(),
     );
 
     // We create this widget outside of the overlay entry's builder to prevent
     // updated values from happening to leak into the overlay when the overlay
     // rebuilds.
     final Widget overlay = Directionality(
-      textDirection: Directionality.of(context),
+      textDirection: Directionality.of(context()),
       child: _TooltipOverlay(
         richMessage: widget.richMessage ?? TextSpan(text: widget.message),
         height: height,
@@ -630,9 +630,9 @@ class _TooltipState extends State<Tooltip> with SingleTickerProviderStateMixin {
     final bool tooltipCreated = ensureTooltipVisible();
     if (tooltipCreated && enableFeedback) {
       if (triggerMode == TooltipTriggerMode.longPress)
-        Feedback.forLongPress(context);
+        Feedback.forLongPress(context());
       else
-        Feedback.forTap(context);
+        Feedback.forTap(context());
     }
   }
 

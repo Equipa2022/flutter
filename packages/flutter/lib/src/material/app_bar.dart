@@ -745,7 +745,7 @@ class _AppBarState extends State<AppBar> {
     super.didChangeDependencies();
     if (_scrollNotificationObserver != null)
       _scrollNotificationObserver!.removeListener(_handleScrollNotification);
-    _scrollNotificationObserver = ScrollNotificationObserver.of(context);
+    _scrollNotificationObserver = ScrollNotificationObserver.of(context());
     if (_scrollNotificationObserver != null)
       _scrollNotificationObserver!.addListener(_handleScrollNotification);
   }
@@ -760,11 +760,11 @@ class _AppBarState extends State<AppBar> {
   }
 
   void _handleDrawerButton() {
-    Scaffold.of(context).openDrawer();
+    Scaffold.of(context()).openDrawer();
   }
 
   void _handleDrawerButtonEnd() {
-    Scaffold.of(context).openEndDrawer();
+    Scaffold.of(context()).openEndDrawer();
   }
 
   void _handleScrollNotification(ScrollNotification notification) {

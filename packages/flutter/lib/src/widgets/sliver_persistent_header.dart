@@ -208,7 +208,7 @@ class _FloatingHeaderState extends State<_FloatingHeader> {
     super.didChangeDependencies();
     if (_position != null)
       _position!.isScrollingNotifier.removeListener(_isScrollingListener);
-    _position = Scrollable.of(context)?.position;
+    _position = Scrollable.of(context())?.position;
     if (_position != null)
       _position!.isScrollingNotifier.addListener(_isScrollingListener);
   }
@@ -221,7 +221,7 @@ class _FloatingHeaderState extends State<_FloatingHeader> {
   }
 
   RenderSliverFloatingPersistentHeader? _headerRenderer() {
-    return context.findAncestorRenderObjectOfType<RenderSliverFloatingPersistentHeader>();
+    return context().findAncestorRenderObjectOfType<RenderSliverFloatingPersistentHeader>();
   }
 
   void _isScrollingListener() {

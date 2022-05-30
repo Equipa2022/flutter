@@ -1076,7 +1076,7 @@ class _BackButtonListenerState extends State<BackButtonListener> {
   void didChangeDependencies() {
     dispatcher?.removeCallback(widget.onBackButtonPressed);
 
-    final BackButtonDispatcher? rootBackDispatcher = Router.of(context).backButtonDispatcher;
+    final BackButtonDispatcher? rootBackDispatcher = Router.of(context()).backButtonDispatcher;
     assert(rootBackDispatcher != null, 'The parent router must have a backButtonDispatcher to use this widget');
 
     dispatcher = rootBackDispatcher!.createChildBackButtonDispatcher()

@@ -630,13 +630,13 @@ class _CupertinoBackGestureDetectorState<T> extends State<_CupertinoBackGestureD
   void _handleDragUpdate(DragUpdateDetails details) {
     assert(mounted);
     assert(_backGestureController != null);
-    _backGestureController!.dragUpdate(_convertToLogical(details.primaryDelta! / context.size!.width));
+    _backGestureController!.dragUpdate(_convertToLogical(details.primaryDelta! / context().size!.width));
   }
 
   void _handleDragEnd(DragEndDetails details) {
     assert(mounted);
     assert(_backGestureController != null);
-    _backGestureController!.dragEnd(_convertToLogical(details.velocity.pixelsPerSecond.dx / context.size!.width));
+    _backGestureController!.dragEnd(_convertToLogical(details.velocity.pixelsPerSecond.dx / context().size!.width));
     _backGestureController = null;
   }
 
@@ -654,7 +654,7 @@ class _CupertinoBackGestureDetectorState<T> extends State<_CupertinoBackGestureD
   }
 
   double _convertToLogical(double value) {
-    switch (Directionality.of(context)) {
+    switch (Directionality.of(context())) {
       case TextDirection.rtl:
         return -value;
       case TextDirection.ltr:

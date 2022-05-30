@@ -515,7 +515,7 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
 
   void _onFocusChanged() {
     if (focusNode.hasFocus && widget.delegate._currentBody != _SearchBody.suggestions) {
-      widget.delegate.showSuggestions(context);
+      widget.delegate.showSuggestions(context());
     }
   }
 

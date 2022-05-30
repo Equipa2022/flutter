@@ -639,8 +639,8 @@ class _CupertinoDatePickerDateTimeState extends State<CupertinoDatePicker> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    textDirectionFactor = Directionality.of(context) == TextDirection.ltr ? 1 : -1;
-    localizations = CupertinoLocalizations.of(context);
+    textDirectionFactor = Directionality.of(context()) == TextDirection.ltr ? 1 : -1;
+    localizations = CupertinoLocalizations.of(context());
 
     alignCenterLeft = textDirectionFactor == 1 ? Alignment.centerLeft : Alignment.centerRight;
     alignCenterRight = textDirectionFactor == 1 ? Alignment.centerRight : Alignment.centerLeft;
@@ -652,7 +652,7 @@ class _CupertinoDatePickerDateTimeState extends State<CupertinoDatePicker> {
   double _getEstimatedColumnWidth(_PickerColumnType columnType) {
     if (estimatedColumnWidths[columnType.index] == null) {
       estimatedColumnWidths[columnType.index] =
-          CupertinoDatePicker._getColumnWidth(columnType, localizations, context);
+          CupertinoDatePicker._getColumnWidth(columnType, localizations, context());
     }
 
     return estimatedColumnWidths[columnType.index]!;
@@ -812,11 +812,11 @@ class _CupertinoDatePickerDateTimeState extends State<CupertinoDatePicker> {
           final int displayHour = widget.use24hFormat ? hour : (hour + 11) % 12 + 1;
 
           return itemPositioningBuilder(
-            context,
+            context(),
             Text(
               localizations.datePickerHour(displayHour),
               semanticsLabel: localizations.datePickerHourSemanticsLabel(displayHour),
-              style: _themeTextStyle(context, isValid: _isValidHour(selectedAmPm, index)),
+              style: _themeTextStyle(context(), isValid: _isValidHour(selectedAmPm, index)),
             ),
           );
         }),
@@ -862,11 +862,11 @@ class _CupertinoDatePickerDateTimeState extends State<CupertinoDatePicker> {
                                     || (widget.maximumDate?.isBefore(date) ?? false);
 
           return itemPositioningBuilder(
-            context,
+            context(),
             Text(
               localizations.datePickerMinute(minute),
               semanticsLabel: localizations.datePickerMinuteSemanticsLabel(minute),
-              style: _themeTextStyle(context, isValid: !isInvalidMinute),
+              style: _themeTextStyle(context(), isValid: !isInvalidMinute),
             ),
           );
         }),
@@ -902,12 +902,12 @@ class _CupertinoDatePickerDateTimeState extends State<CupertinoDatePicker> {
         selectionOverlay: selectionOverlay,
         children: List<Widget>.generate(2, (int index) {
           return itemPositioningBuilder(
-            context,
+            context(),
             Text(
               index == 0
                 ? localizations.anteMeridiemAbbreviation
                 : localizations.postMeridiemAbbreviation,
-              style: _themeTextStyle(context, isValid: _isValidHour(index, _selectedHourIndex)),
+              style: _themeTextStyle(context(), isValid: _isValidHour(index, _selectedHourIndex)),
             ),
           );
         }),
@@ -1137,8 +1137,8 @@ class _CupertinoDatePickerDateState extends State<CupertinoDatePicker> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    textDirectionFactor = Directionality.of(context) == TextDirection.ltr ? 1 : -1;
-    localizations = CupertinoLocalizations.of(context);
+    textDirectionFactor = Directionality.of(context()) == TextDirection.ltr ? 1 : -1;
+    localizations = CupertinoLocalizations.of(context());
 
     alignCenterLeft = textDirectionFactor == 1 ? Alignment.centerLeft : Alignment.centerRight;
     alignCenterRight = textDirectionFactor == 1 ? Alignment.centerRight : Alignment.centerLeft;
@@ -1147,9 +1147,9 @@ class _CupertinoDatePickerDateState extends State<CupertinoDatePicker> {
   }
 
   void _refreshEstimatedColumnWidths() {
-    estimatedColumnWidths[_PickerColumnType.dayOfMonth.index] = CupertinoDatePicker._getColumnWidth(_PickerColumnType.dayOfMonth, localizations, context);
-    estimatedColumnWidths[_PickerColumnType.month.index] = CupertinoDatePicker._getColumnWidth(_PickerColumnType.month, localizations, context);
-    estimatedColumnWidths[_PickerColumnType.year.index] = CupertinoDatePicker._getColumnWidth(_PickerColumnType.year, localizations, context);
+    estimatedColumnWidths[_PickerColumnType.dayOfMonth.index] = CupertinoDatePicker._getColumnWidth(_PickerColumnType.dayOfMonth, localizations, context());
+    estimatedColumnWidths[_PickerColumnType.month.index] = CupertinoDatePicker._getColumnWidth(_PickerColumnType.month, localizations, context());
+    estimatedColumnWidths[_PickerColumnType.year.index] = CupertinoDatePicker._getColumnWidth(_PickerColumnType.year, localizations, context());
   }
 
   // The DateTime of the last day of a given month in a given year.
@@ -1187,10 +1187,10 @@ class _CupertinoDatePickerDateState extends State<CupertinoDatePicker> {
         children: List<Widget>.generate(31, (int index) {
           final int day = index + 1;
           return itemPositioningBuilder(
-            context,
+            context(),
             Text(
               localizations.datePickerDayOfMonth(day),
-              style: _themeTextStyle(context, isValid: day <= daysInCurrentMonth),
+              style: _themeTextStyle(context(), isValid: day <= daysInCurrentMonth),
             ),
           );
         }),
@@ -1231,10 +1231,10 @@ class _CupertinoDatePickerDateState extends State<CupertinoDatePicker> {
                                    || (widget.maximumDate?.year == selectedYear && widget.maximumDate!.month < month);
 
           return itemPositioningBuilder(
-            context,
+            context(),
             Text(
               localizations.datePickerMonth(month),
-              style: _themeTextStyle(context, isValid: !isInvalidMonth),
+              style: _themeTextStyle(context(), isValid: !isInvalidMonth),
             ),
           );
         }),
@@ -1648,15 +1648,15 @@ class _CupertinoTimerPickerState extends State<CupertinoTimerPicker> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    textDirection = Directionality.of(context);
-    localizations = CupertinoLocalizations.of(context);
+    textDirection = Directionality.of(context());
+    localizations = CupertinoLocalizations.of(context());
 
     _measureLabelMetrics();
   }
 
   void _measureLabelMetrics() {
     textPainter.textDirection = textDirection;
-    final TextStyle textStyle = _textStyleFrom(context, _kTimerPickerMagnification);
+    final TextStyle textStyle = _textStyleFrom(context(), _kTimerPickerMagnification);
 
     double maxWidth = double.negativeInfinity;
     String? widestNumber;

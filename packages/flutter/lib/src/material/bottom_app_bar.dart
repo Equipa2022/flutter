@@ -123,7 +123,7 @@ class _BottomAppBarState extends State<BottomAppBar> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    geometryListenable = Scaffold.geometryOf(context);
+    geometryListenable = Scaffold.geometryOf(context());
   }
 
   @override

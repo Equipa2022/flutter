@@ -785,7 +785,7 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> with TickerPr
   // [BottomNavigationBarType.shifting] is used for 4+ items.
   BottomNavigationBarType get _effectiveType {
     return widget.type
-      ?? BottomNavigationBarTheme.of(context).type
+      ?? BottomNavigationBarTheme.of(context()).type
       ?? (widget.items.length <= 3 ? BottomNavigationBarType.fixed : BottomNavigationBarType.shifting);
   }
 
@@ -890,11 +890,11 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> with TickerPr
   }
 
   List<Widget> _createTiles(BottomNavigationBarLandscapeLayout layout) {
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
     assert(localizations != null);
 
-    final ThemeData themeData = Theme.of(context);
-    final BottomNavigationBarThemeData bottomTheme = BottomNavigationBarTheme.of(context);
+    final ThemeData themeData = Theme.of(context());
+    final BottomNavigationBarThemeData bottomTheme = BottomNavigationBarTheme.of(context());
 
     final TextStyle effectiveSelectedLabelStyle =
       _effectiveTextStyle(

@@ -761,12 +761,12 @@ class _InkResponseState extends State<_InkResponseStateWidget>
   bool get _anyChildInkResponsePressed => _activeChildren.isNotEmpty;
 
   void _simulateTap([Intent? intent]) {
-    _startSplash(context: context);
+    _startSplash(context: context());
     _handleTap();
   }
 
   void _simulateLongPress() {
-    _startSplash(context: context);
+    _startSplash(context: context());
     _handleLongPress();
   }
 
@@ -807,11 +807,11 @@ class _InkResponseState extends State<_InkResponseStateWidget>
       // Material Design spec. A separate highlight is no longer used.
       // See https://material.io/design/interaction/states.html#pressed
       case _HighlightType.pressed:
-        return widget.highlightColor ?? Theme.of(context).highlightColor;
+        return widget.highlightColor ?? Theme.of(context()).highlightColor;
       case _HighlightType.focus:
-        return widget.overlayColor?.resolve(focused) ?? widget.focusColor ?? Theme.of(context).focusColor;
+        return widget.overlayColor?.resolve(focused) ?? widget.focusColor ?? Theme.of(context()).focusColor;
       case _HighlightType.hover:
-        return widget.overlayColor?.resolve(hovered) ?? widget.hoverColor ?? Theme.of(context).hoverColor;
+        return widget.overlayColor?.resolve(hovered) ?? widget.hoverColor ?? Theme.of(context()).hoverColor;
     }
   }
 
@@ -840,9 +840,9 @@ class _InkResponseState extends State<_InkResponseStateWidget>
       return;
     if (value) {
       if (highlight == null) {
-        final RenderBox referenceBox = context.findRenderObject()! as RenderBox;
+        final RenderBox referenceBox = context().findRenderObject()! as RenderBox;
         _highlights[type] = InkHighlight(
-          controller: Material.of(context)!,
+          controller: Material.of(context())!,
           referenceBox: referenceBox,
           color: getHighlightColorForType(type),
           shape: widget.highlightShape,
@@ -851,7 +851,7 @@ class _InkResponseState extends State<_InkResponseStateWidget>
           customBorder: widget.customBorder,
           rectCallback: widget.getRectCallback!(referenceBox),
           onRemoved: handleInkRemoval,
-          textDirection: Directionality.of(context),
+          textDirection: Directionality.of(context()),
           fadeDuration: getFadeDurationForType(type),
         );
         updateKeepAlive();
@@ -877,11 +877,11 @@ class _InkResponseState extends State<_InkResponseStateWidget>
   }
 
   InteractiveInkFeature _createInkFeature(Offset globalPosition) {
-    final MaterialInkController inkController = Material.of(context)!;
-    final RenderBox referenceBox = context.findRenderObject()! as RenderBox;
+    final MaterialInkController inkController = Material.of(context())!;
+    final RenderBox referenceBox = context().findRenderObject()! as RenderBox;
     final Offset position = referenceBox.globalToLocal(globalPosition);
     const Set<MaterialState> pressed = <MaterialState>{MaterialState.pressed};
-    final Color color =  widget.overlayColor?.resolve(pressed) ?? widget.splashColor ?? Theme.of(context).splashColor;
+    final Color color =  widget.overlayColor?.resolve(pressed) ?? widget.splashColor ?? Theme.of(context()).splashColor;
     final RectCallback? rectCallback = widget.containedInkWell ? widget.getRectCallback!(referenceBox) : null;
     final BorderRadius? borderRadius = widget.borderRadius;
     final ShapeBorder? customBorder = widget.customBorder;
@@ -897,7 +897,7 @@ class _InkResponseState extends State<_InkResponseStateWidget>
       } // else we're probably in deactivate()
     }
 
-    splash = (widget.splashFactory ?? Theme.of(context).splashFactory).create(
+    splash = (widget.splashFactory ?? Theme.of(context()).splashFactory).create(
       controller: inkController,
       referenceBox: referenceBox,
       position: position,
@@ -908,7 +908,7 @@ class _InkResponseState extends State<_InkResponseStateWidget>
       borderRadius: borderRadius,
       customBorder: customBorder,
       onRemoved: onRemoved,
-      textDirection: Directionality.of(context),
+      textDirection: Directionality.of(context()),
     );
 
     return splash;
@@ -924,7 +924,7 @@ class _InkResponseState extends State<_InkResponseStateWidget>
   }
 
   bool get _shouldShowFocus {
-    final NavigationMode mode = MediaQuery.maybeOf(context)?.navigationMode ?? NavigationMode.traditional;
+    final NavigationMode mode = MediaQuery.maybeOf(context())?.navigationMode ?? NavigationMode.traditional;
     switch (mode) {
       case NavigationMode.traditional:
         return enabled && _hasFocus;
@@ -985,7 +985,7 @@ class _InkResponseState extends State<_InkResponseStateWidget>
     updateHighlight(_HighlightType.pressed, value: false);
     if (widget.onTap != null) {
       if (widget.enableFeedback)
-        Feedback.forTap(context);
+        Feedback.forTap(context());
       widget.onTap?.call();
     }
   }
@@ -1008,7 +1008,7 @@ class _InkResponseState extends State<_InkResponseStateWidget>
     _currentSplash = null;
     if (widget.onLongPress != null) {
       if (widget.enableFeedback)
-        Feedback.forLongPress(context);
+        Feedback.forLongPress(context());
       widget.onLongPress!();
     }
   }
@@ -1056,7 +1056,7 @@ class _InkResponseState extends State<_InkResponseStateWidget>
   }
 
   bool get _canRequestFocus {
-    final NavigationMode mode = MediaQuery.maybeOf(context)?.navigationMode ?? NavigationMode.traditional;
+    final NavigationMode mode = MediaQuery.maybeOf(context())?.navigationMode ?? NavigationMode.traditional;
     switch (mode) {
       case NavigationMode.traditional:
         return enabled && widget.canRequestFocus;

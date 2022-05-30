@@ -440,8 +440,8 @@ class _MonthPickerState extends State<MonthPicker> with SingleTickerProviderStat
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    localizations = MaterialLocalizations.of(context);
-    textDirection = Directionality.of(context);
+    localizations = MaterialLocalizations.of(context());
+    textDirection = Directionality.of(context());
   }
 
   late DateTime _todayDate;

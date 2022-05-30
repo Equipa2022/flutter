@@ -325,7 +325,7 @@ class PopupMenuItemState<T, W extends PopupMenuItem<T>> extends State<W> {
   void handleTap() {
     widget.onTap?.call();
 
-    Navigator.pop<T>(context, widget.value);
+    Navigator.pop<T>(context(), widget.value);
   }
 
   @override
@@ -898,7 +898,7 @@ Future<T?> showMenu<T>({
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
     shape: shape,
     color: color,
-    capturedThemes: InheritedTheme.capture(from: context, to: navigator.context),
+    capturedThemes: InheritedTheme.capture(from: context, to: navigator.context()),
   ));
 }
 
@@ -1112,9 +1112,9 @@ class PopupMenuButtonState<T> extends State<PopupMenuButton<T>> {
   /// You would access your [PopupMenuButtonState] using a [GlobalKey] and
   /// show the menu of the button with `globalKey.currentState.showButtonMenu`.
   void showButtonMenu() {
-    final PopupMenuThemeData popupMenuTheme = PopupMenuTheme.of(context);
-    final RenderBox button = context.findRenderObject()! as RenderBox;
-    final RenderBox overlay = Navigator.of(context).overlay!.context.findRenderObject()! as RenderBox;
+    final PopupMenuThemeData popupMenuTheme = PopupMenuTheme.of(context());
+    final RenderBox button = context().findRenderObject()! as RenderBox;
+    final RenderBox overlay = Navigator.of(context()).overlay!.context().findRenderObject()! as RenderBox;
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
         button.localToGlobal(widget.offset, ancestor: overlay),
@@ -1122,11 +1122,11 @@ class PopupMenuButtonState<T> extends State<PopupMenuButton<T>> {
       ),
       Offset.zero & overlay.size,
     );
-    final List<PopupMenuEntry<T>> items = widget.itemBuilder(context);
+    final List<PopupMenuEntry<T>> items = widget.itemBuilder(context());
     // Only show the menu if there is something to show
     if (items.isNotEmpty) {
       showMenu<T?>(
-        context: context,
+        context: context(),
         elevation: widget.elevation ?? popupMenuTheme.elevation,
         items: items,
         initialValue: widget.initialValue,
@@ -1147,7 +1147,7 @@ class PopupMenuButtonState<T> extends State<PopupMenuButton<T>> {
   }
 
   bool get _canRequestFocus {
-    final NavigationMode mode = MediaQuery.maybeOf(context)?.navigationMode ?? NavigationMode.traditional;
+    final NavigationMode mode = MediaQuery.maybeOf(context())?.navigationMode ?? NavigationMode.traditional;
     switch (mode) {
       case NavigationMode.traditional:
         return widget.enabled;

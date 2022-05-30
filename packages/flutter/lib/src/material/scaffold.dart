@@ -188,7 +188,7 @@ class ScaffoldMessengerState extends State<ScaffoldMessenger> with TickerProvide
 
   @override
   void didChangeDependencies() {
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final MediaQueryData mediaQuery = MediaQuery.of(context());
     // If we transition from accessible navigation to non-accessible navigation
     // and there is a SnackBar that would have timed out that has already
     // completed its timer, dismiss that SnackBar. If the timer hasn't finished
@@ -235,7 +235,7 @@ class ScaffoldMessengerState extends State<ScaffoldMessenger> with TickerProvide
   // Nested Scaffolds are handled by the ScaffoldMessenger by only presenting a
   // MaterialBanner or SnackBar in the root Scaffold of the nested set.
   bool _isRoot(ScaffoldState scaffold) {
-    final ScaffoldState? parent = scaffold.context.findAncestorStateOfType<ScaffoldState>();
+    final ScaffoldState? parent = scaffold.context().findAncestorStateOfType<ScaffoldState>();
     return parent == null || !_scaffolds.contains(parent);
   }
 
@@ -2127,7 +2127,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
     // ScaffoldMessenger here if that is where the SnackBar originated from.
     if (_messengerSnackBar != null) {
       // ScaffoldMessenger is presenting SnackBars.
-      assert(debugCheckHasScaffoldMessenger(context));
+      assert(debugCheckHasScaffoldMessenger(context()));
       assert(
         _scaffoldMessenger != null,
         'A SnackBar was shown by the ScaffoldMessenger, but has been called upon '
@@ -2172,7 +2172,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
     // ScaffoldMessenger here if that is where the SnackBar originated from.
     if (_messengerSnackBar != null) {
       // ScaffoldMessenger is presenting SnackBars.
-      assert(debugCheckHasScaffoldMessenger(context));
+      assert(debugCheckHasScaffoldMessenger(context()));
       assert(
         _scaffoldMessenger != null,
         'A SnackBar was shown by the ScaffoldMessenger, but has been called upon '
@@ -2186,7 +2186,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
 
     if (_snackBars.isEmpty || _snackBarController!.status == AnimationStatus.dismissed)
       return;
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final MediaQueryData mediaQuery = MediaQuery.of(context());
     final Completer<SnackBarClosedReason> completer = _snackBars.first._completer;
     if (mediaQuery.accessibleNavigation) {
       _snackBarController!.value = 0.0;
@@ -2265,10 +2265,10 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
               _floatingActionButtonVisibilityValue = 1.0;
               _persistentSheetHistoryEntry = null;
             });
-            ModalRoute.of(context)!.addLocalHistoryEntry(_persistentSheetHistoryEntry!);
+            ModalRoute.of(context())!.addLocalHistoryEntry(_persistentSheetHistoryEntry!);
           }
         } else if (_persistentSheetHistoryEntry != null) {
-          ModalRoute.of(context)!.removeLocalHistoryEntry(_persistentSheetHistoryEntry!);
+          ModalRoute.of(context())!.removeLocalHistoryEntry(_persistentSheetHistoryEntry!);
         }
         return false;
       }
@@ -2402,7 +2402,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
     );
 
     if (!isPersistent)
-      ModalRoute.of(context)!.addLocalHistoryEntry(entry!);
+      ModalRoute.of(context())!.addLocalHistoryEntry(entry!);
 
     return PersistentBottomSheetController<T>._(
       bottomSheet,
@@ -2482,7 +2482,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
       }
       return true;
     }());
-    assert(debugCheckHasMediaQuery(context));
+    assert(debugCheckHasMediaQuery(context()));
 
     _closeCurrentBottomSheet();
     final AnimationController controller = (transitionAnimationController ?? BottomSheet.createAnimationController(this))..forward();
@@ -2557,7 +2557,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
   // top. We implement this by looking up the  primary scroll controller and
   // scrolling it to the top when tapped.
   void _handleStatusBarTap() {
-    final ScrollController? _primaryScrollController = PrimaryScrollController.of(context);
+    final ScrollController? _primaryScrollController = PrimaryScrollController.of(context());
     if (_primaryScrollController != null && _primaryScrollController.hasClients) {
       _primaryScrollController.animateTo(
         0.0,
@@ -2578,7 +2578,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
   @override
   void initState() {
     super.initState();
-    _geometryNotifier = _ScaffoldGeometryNotifier(const ScaffoldGeometry(), context);
+    _geometryNotifier = _ScaffoldGeometryNotifier(const ScaffoldGeometry(), context());
     _floatingActionButtonLocation = widget.floatingActionButtonLocation ?? _kDefaultFloatingActionButtonLocation;
     _floatingActionButtonAnimator = widget.floatingActionButtonAnimator ?? _kDefaultFloatingActionButtonAnimator;
     _previousFloatingActionButtonLocation = _floatingActionButtonLocation;
@@ -2635,7 +2635,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
   void didChangeDependencies() {
     // Using maybeOf is valid here since both the Scaffold and ScaffoldMessenger
     // are currently available for managing SnackBars.
-    final ScaffoldMessengerState? _currentScaffoldMessenger = ScaffoldMessenger.maybeOf(context);
+    final ScaffoldMessengerState? _currentScaffoldMessenger = ScaffoldMessenger.maybeOf(context());
     // If our ScaffoldMessenger has changed, unregister with the old one first.
     if (_scaffoldMessenger != null &&
       (_currentScaffoldMessenger == null || _scaffoldMessenger != _currentScaffoldMessenger)) {
@@ -2646,7 +2646,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
     _scaffoldMessenger?._register(this);
 
     // TODO(Piinks): Remove old SnackBar API after migrating ScaffoldMessenger
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final MediaQueryData mediaQuery = MediaQuery.of(context());
     // If we transition from accessible navigation to non-accessible navigation
     // and there is a SnackBar that would have timed out that has already
     // completed its timer, dismiss that SnackBar. If the timer hasn't finished
@@ -2688,7 +2688,7 @@ class ScaffoldState extends State<Scaffold> with TickerProviderStateMixin, Resto
     bool removeBottomInset = false,
     bool maintainBottomViewPadding = false,
   }) {
-    MediaQueryData data = MediaQuery.of(context).removePadding(
+    MediaQueryData data = MediaQuery.of(context()).removePadding(
       removeLeft: removeLeftPadding,
       removeTop: removeTopPadding,
       removeRight: removeRightPadding,
@@ -3262,7 +3262,7 @@ class _StandardBottomSheetState extends State<_StandardBottomSheet> {
 
   bool extentChanged(DraggableScrollableNotification notification) {
     final double extentRemaining = 1.0 - notification.extent;
-    final ScaffoldState scaffold = Scaffold.of(context);
+    final ScaffoldState scaffold = Scaffold.of(context());
     if (extentRemaining < _kBottomSheetDominatesPercentage) {
       scaffold._floatingActionButtonVisibilityValue = extentRemaining * _kBottomSheetDominatesPercentage * 10;
       scaffold.showBodyScrim(true,  math.max(

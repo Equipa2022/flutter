@@ -83,7 +83,7 @@ class _SelectableTextSelectionGestureDetectorBuilder extends TextSelectionGestur
   void onSingleTapUp(TapUpDetails details) {
     editableText.hideToolbar();
     if (delegate.selectionEnabled) {
-      switch (Theme.of(_state.context).platform) {
+      switch (Theme.of(_state.context()).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
           renderEditable.selectWordEdge(cause: SelectionChangedCause.tap);
@@ -103,7 +103,7 @@ class _SelectableTextSelectionGestureDetectorBuilder extends TextSelectionGestur
   void onSingleLongTapStart(LongPressStartDetails details) {
     if (delegate.selectionEnabled) {
       renderEditable.selectWord(cause: SelectionChangedCause.longPress);
-      Feedback.forLongPress(_state.context);
+      Feedback.forLongPress(_state.context());
     }
   }
 }
@@ -538,7 +538,7 @@ class _SelectableTextState extends State<SelectableText> implements TextSelectio
     }
     _lastSeenTextSelection = selection;
 
-    switch (Theme.of(context).platform) {
+    switch (Theme.of(context()).platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         if (cause == SelectionChangedCause.longPress) {

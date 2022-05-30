@@ -259,14 +259,14 @@ class _MaterialScrollbarState extends RawScrollbarState<_MaterialScrollbar> {
         dragColor = onSurface.withOpacity(0.6);
         hoverColor = onSurface.withOpacity(0.5);
         idleColor = _useAndroidScrollbar
-          ? Theme.of(context).highlightColor.withOpacity(1.0)
+          ? Theme.of(context()).highlightColor.withOpacity(1.0)
           : onSurface.withOpacity(0.1);
         break;
       case Brightness.dark:
         dragColor = onSurface.withOpacity(0.75);
         hoverColor = onSurface.withOpacity(0.65);
         idleColor = _useAndroidScrollbar
-          ? Theme.of(context).highlightColor.withOpacity(1.0)
+          ? Theme.of(context()).highlightColor.withOpacity(1.0)
           : onSurface.withOpacity(0.3);
         break;
     }
@@ -343,7 +343,7 @@ class _MaterialScrollbarState extends RawScrollbarState<_MaterialScrollbar> {
 
   @override
   void didChangeDependencies() {
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context());
     _colorScheme = theme.colorScheme;
     _scrollbarTheme = theme.scrollbarTheme;
     switch (theme.platform) {
@@ -367,13 +367,13 @@ class _MaterialScrollbarState extends RawScrollbarState<_MaterialScrollbar> {
       ..color = _thumbColor.resolve(_states)
       ..trackColor = _trackColor.resolve(_states)
       ..trackBorderColor = _trackBorderColor.resolve(_states)
-      ..textDirection = Directionality.of(context)
+      ..textDirection = Directionality.of(context())
       ..thickness = _thickness.resolve(_states)
       ..radius = widget.radius ?? _scrollbarTheme.radius ?? (_useAndroidScrollbar ? null : _kScrollbarRadius)
       ..crossAxisMargin = _scrollbarTheme.crossAxisMargin ?? (_useAndroidScrollbar ? 0.0 : _kScrollbarMargin)
       ..mainAxisMargin = _scrollbarTheme.mainAxisMargin ?? 0.0
       ..minLength = _scrollbarTheme.minThumbLength ?? _kScrollbarMinLength
-      ..padding = MediaQuery.of(context).padding
+      ..padding = MediaQuery.of(context()).padding
       ..scrollbarOrientation = widget.scrollbarOrientation
       ..ignorePointer = !enableGestures;
   }

@@ -335,7 +335,7 @@ class _RadioState<T> extends State<Radio<T>> with TickerProviderStateMixin, Togg
   }
 
   MaterialStateProperty<Color> get _defaultFillColor {
-    final ThemeData themeData = Theme.of(context);
+    final ThemeData themeData = Theme.of(context());
     return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
       if (states.contains(MaterialState.disabled)) {
         return themeData.disabledColor;

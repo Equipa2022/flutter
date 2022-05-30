@@ -392,11 +392,11 @@ class DrawerControllerState extends State<DrawerController> with SingleTickerPro
 
   void _ensureHistoryEntry() {
     if (_historyEntry == null) {
-      final ModalRoute<dynamic>? route = ModalRoute.of(context);
+      final ModalRoute<dynamic>? route = ModalRoute.of(context());
       if (route != null) {
         _historyEntry = LocalHistoryEntry(onRemove: _handleHistoryEntryRemoved);
         route.addLocalHistoryEntry(_historyEntry!);
-        FocusScope.of(context).setFirstFocus(_focusScopeNode);
+        FocusScope.of(context()).setFirstFocus(_focusScopeNode);
       }
     }
   }
@@ -459,7 +459,7 @@ class DrawerControllerState extends State<DrawerController> with SingleTickerPro
         delta = -delta;
         break;
     }
-    switch (Directionality.of(context)) {
+    switch (Directionality.of(context())) {
       case TextDirection.rtl:
         _controller.value -= delta;
         break;
@@ -486,7 +486,7 @@ class DrawerControllerState extends State<DrawerController> with SingleTickerPro
           visualVelocity = -visualVelocity;
           break;
       }
-      switch (Directionality.of(context)) {
+      switch (Directionality.of(context())) {
         case TextDirection.rtl:
           _controller.fling(velocity: -visualVelocity);
           widget.drawerCallback?.call(visualVelocity < 0.0);
@@ -524,7 +524,7 @@ class DrawerControllerState extends State<DrawerController> with SingleTickerPro
     return ColorTween(
       begin: Colors.transparent,
       end: widget.scrimColor
-          ?? DrawerTheme.of(context).scrimColor
+          ?? DrawerTheme.of(context()).scrimColor
           ?? Colors.black54,
     );
   }

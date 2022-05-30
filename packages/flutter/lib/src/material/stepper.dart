@@ -349,7 +349,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
   }
 
   bool _isDark() {
-    return Theme.of(context).brightness == Brightness.dark;
+    return Theme.of(context()).brightness == Brightness.dark;
   }
 
   Widget _buildLine(bool visible) {
@@ -389,7 +389,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
   }
 
   Color _circleColor(int index) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final ColorScheme colorScheme = Theme.of(context()).colorScheme;
     if (!_isDark()) {
       return widget.steps[index].isActive ? colorScheme.primary : colorScheme.onSurface.withOpacity(0.38);
     } else {
@@ -461,7 +461,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
   Widget _buildVerticalControls(int stepIndex) {
     if (widget.controlsBuilder != null)
       return widget.controlsBuilder!(
-        context,
+        context(),
         ControlsDetails(
           currentStep: widget.currentStep,
           onStepContinue: widget.onStepContinue,
@@ -471,7 +471,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
       );
 
     final Color cancelColor;
-    switch (Theme.of(context).brightness) {
+    switch (Theme.of(context()).brightness) {
       case Brightness.light:
         cancelColor = Colors.black54;
         break;
@@ -480,9 +480,9 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
         break;
     }
 
-    final ThemeData themeData = Theme.of(context);
+    final ThemeData themeData = Theme.of(context());
     final ColorScheme colorScheme = themeData.colorScheme;
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
 
     const OutlinedBorder buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2)));
     const EdgeInsets buttonPadding = EdgeInsets.symmetric(horizontal: 16.0);
@@ -529,7 +529,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
   }
 
   TextStyle _titleStyle(int index) {
-    final ThemeData themeData = Theme.of(context);
+    final ThemeData themeData = Theme.of(context());
     final TextTheme textTheme = themeData.textTheme;
 
     assert(widget.steps[index].state != null);
@@ -550,7 +550,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
   }
 
   TextStyle _subtitleStyle(int index) {
-    final ThemeData themeData = Theme.of(context);
+    final ThemeData themeData = Theme.of(context());
     final TextTheme textTheme = themeData.textTheme;
 
     assert(widget.steps[index].state != null);

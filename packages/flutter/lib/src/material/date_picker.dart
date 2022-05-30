@@ -379,11 +379,11 @@ class _DatePickerDialogState extends State<DatePickerDialog> with RestorationMix
       }
       form.save();
     }
-    Navigator.pop(context, _selectedDate.value);
+    Navigator.pop(context(), _selectedDate.value);
   }
 
   void _handleCancel() {
-    Navigator.pop(context);
+    Navigator.pop(context());
   }
 
   void _handleEntryModeToggle() {
@@ -1237,11 +1237,11 @@ class _DateRangePickerDialogState extends State<DateRangePickerDialog> with Rest
         ? DateTimeRange(start: _selectedStart.value!, end: _selectedEnd.value!)
         : null;
 
-    Navigator.pop(context, selectedRange);
+    Navigator.pop(context(), selectedRange);
   }
 
   void _handleCancel() {
-    Navigator.pop(context);
+    Navigator.pop(context());
   }
 
   void _handleEntryModeToggle() {
@@ -1675,7 +1675,7 @@ class _CalendarDateRangePickerState extends State<_CalendarDateRangePicker> {
   int get _numberOfMonths => DateUtils.monthDelta(widget.firstDate, widget.lastDate) + 1;
 
   void _vibrate() {
-    switch (Theme.of(context).platform) {
+    switch (Theme.of(context()).platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
         HapticFeedback.vibrate();
@@ -1882,7 +1882,7 @@ class _CalendarKeyboardNavigatorState extends State<_CalendarKeyboardNavigator> 
   }
 
   DateTime? _nextDateInDirection(DateTime date, TraversalDirection direction) {
-    final TextDirection textDirection = Directionality.of(context);
+    final TextDirection textDirection = Directionality.of(context());
     final DateTime nextDate = DateUtils.addDaysToDate(date, _dayDirectionOffset(direction, textDirection));
     if (!nextDate.isBefore(widget.firstDate) && !nextDate.isAfter(widget.lastDate)) {
       return nextDate;
@@ -2203,7 +2203,7 @@ class _MonthItemState extends State<_MonthItem> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Check to see if the focused date is in this month, if so focus it.
-    final DateTime? focusedDate = _FocusedDate.of(context)?.date;
+    final DateTime? focusedDate = _FocusedDate.of(context())?.date;
     if (focusedDate != null && DateUtils.isSameMonth(widget.displayedMonth, focusedDate)) {
       _dayFocusNodes[focusedDate.day - 1].requestFocus();
     }
@@ -2223,7 +2223,7 @@ class _MonthItemState extends State<_MonthItem> {
 
   void _dayFocusChanged(bool focused) {
     if (focused) {
-      final TraversalDirection? focusDirection = _FocusedDate.of(context)?.scrollDirection;
+      final TraversalDirection? focusDirection = _FocusedDate.of(context())?.scrollDirection;
       if (focusDirection != null) {
         ScrollPositionAlignmentPolicy policy = ScrollPositionAlignmentPolicy.explicit;
         switch (focusDirection) {
@@ -2787,7 +2787,7 @@ class _InputDateRangePickerState extends State<_InputDateRangePicker> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
     if (_startDate != null) {
       _startInputText = localizations.formatCompactDate(_startDate!);
       final bool selectText = widget.autofocus && !_autoSelected;
@@ -2812,7 +2812,7 @@ class _InputDateRangePickerState extends State<_InputDateRangePicker> {
     final String? endError = _validateDate(_endDate);
     if (startError == null && endError == null) {
       if (_startDate!.isAfter(_endDate!)) {
-        startError = widget.errorInvalidRangeText ?? MaterialLocalizations.of(context).invalidDateRangeLabel;
+        startError = widget.errorInvalidRangeText ?? MaterialLocalizations.of(context()).invalidDateRangeLabel;
       }
     }
     setState(() {
@@ -2823,15 +2823,15 @@ class _InputDateRangePickerState extends State<_InputDateRangePicker> {
   }
 
   DateTime? _parseDate(String? text) {
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
     return localizations.parseCompactDate(text);
   }
 
   String? _validateDate(DateTime? date) {
     if (date == null) {
-      return widget.errorFormatText ?? MaterialLocalizations.of(context).invalidDateFormatLabel;
+      return widget.errorFormatText ?? MaterialLocalizations.of(context()).invalidDateFormatLabel;
     } else if (date.isBefore(widget.firstDate) || date.isAfter(widget.lastDate)) {
-      return widget.errorInvalidText ?? MaterialLocalizations.of(context).dateOutOfRangeLabel;
+      return widget.errorInvalidText ?? MaterialLocalizations.of(context()).dateOutOfRangeLabel;
     }
     return null;
   }

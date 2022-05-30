@@ -1070,7 +1070,7 @@ class _ImageState extends State<Image> with WidgetsBindingObserver {
     _updateInvertColors();
     _resolveImage();
 
-    if (TickerMode.of(context))
+    if (TickerMode.of(context()))
       _listenToStream();
     else
       _stopListeningToStream(keepStreamAlive: true);
@@ -1106,7 +1106,7 @@ class _ImageState extends State<Image> with WidgetsBindingObserver {
   }
 
   void _updateInvertColors() {
-    _invertColors = MediaQuery.maybeOf(context)?.invertColors
+    _invertColors = MediaQuery.maybeOf(context())?.invertColors
         ?? SemanticsBinding.instance!.accessibilityFeatures.invertColors;
   }
 
@@ -1117,7 +1117,7 @@ class _ImageState extends State<Image> with WidgetsBindingObserver {
     );
     final ImageStream newStream =
       provider.resolve(createLocalImageConfiguration(
-        context,
+        context(),
         size: widget.width != null && widget.height != null ? Size(widget.width!, widget.height!) : null,
       ));
     assert(newStream != null);

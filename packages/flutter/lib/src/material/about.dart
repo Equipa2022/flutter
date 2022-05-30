@@ -446,9 +446,9 @@ class _LicensePageState extends State<LicensePage> {
 
   Widget _packagesView(final BuildContext _, final bool isLateral) {
     final Widget about = _AboutProgram(
-        name: widget.applicationName ?? _defaultApplicationName(context),
-        icon: widget.applicationIcon ?? _defaultApplicationIcon(context),
-        version: widget.applicationVersion ?? _defaultApplicationVersion(context),
+        name: widget.applicationName ?? _defaultApplicationName(context()),
+        icon: widget.applicationIcon ?? _defaultApplicationIcon(context()),
+        version: widget.applicationVersion ?? _defaultApplicationVersion(context()),
         legalese: widget.applicationLegalese,
       );
     return _PackagesView(
@@ -1446,14 +1446,14 @@ class _MasterDetailScaffoldState extends State<_MasterDetailScaffold>
   void openDetailPage(Object arguments) {
     SchedulerBinding.instance!
         .addPostFrameCallback((_) => _detailArguments.value = arguments);
-    _MasterDetailFlow.of(context)!.openDetailPage(arguments);
+    _MasterDetailFlow.of(context())!.openDetailPage(arguments);
   }
 
   @override
   void setInitialDetailPage(Object arguments) {
     SchedulerBinding.instance!
         .addPostFrameCallback((_) => _detailArguments.value = arguments);
-    _MasterDetailFlow.of(context)!.setInitialDetailPage(arguments);
+    _MasterDetailFlow.of(context())!.setInitialDetailPage(arguments);
   }
 
   @override

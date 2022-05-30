@@ -795,7 +795,7 @@ class _SliderState extends State<Slider> with TickerProviderStateMixin {
           );
         },
       );
-      Overlay.of(context)!.insert(overlayEntry!);
+      Overlay.of(context())!.insert(overlayEntry!);
     }
   }
 }

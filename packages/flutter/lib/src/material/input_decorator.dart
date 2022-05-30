@@ -1878,7 +1878,7 @@ class _InputDecoratorState extends State<InputDecorator> with TickerProviderStat
   InputDecoration? _effectiveDecoration;
   InputDecoration? get decoration {
     _effectiveDecoration ??= widget.decoration.applyDefaults(
-      Theme.of(context).inputDecorationTheme,
+      Theme.of(context()).inputDecorationTheme,
     );
     return _effectiveDecoration;
   }

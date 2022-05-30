@@ -1036,7 +1036,7 @@ Future<T?> showDialog<T>({
     to: Navigator.of(
       context,
       rootNavigator: useRootNavigator,
-    ).context,
+    ).context(),
   );
 
   return Navigator.of(context, rootNavigator: useRootNavigator).push<T>(DialogRoute<T>(

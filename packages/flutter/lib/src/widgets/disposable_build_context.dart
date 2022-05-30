@@ -43,7 +43,7 @@ class DisposableBuildContext<T extends State> {
     if (_state == null) {
       return null;
     }
-    return _state!.context;
+    return _state!.context();
   }
 
   /// Called from asserts or tests to determine whether this object is in a

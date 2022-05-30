@@ -3236,7 +3236,7 @@ class NavigatorState extends State<Navigator> with TickerProviderStateMixin, Res
 
     // We have to manually extract the inherited widget in initState because
     // the current context is not fully initialized.
-    final HeroControllerScope? heroControllerScope = context
+    final HeroControllerScope? heroControllerScope = context()
       .getElementForInheritedWidgetOfExactType<HeroControllerScope>()
       ?.widget as HeroControllerScope?;
     _updateHeroController(heroControllerScope?.controller);
@@ -3267,7 +3267,7 @@ class NavigatorState extends State<Navigator> with TickerProviderStateMixin, Res
     _history.addAll(_serializableHistory.restoreEntriesForPage(null, this));
     for (final Page<dynamic> page in widget.pages) {
       final _RouteEntry entry = _RouteEntry(
-        page.createRoute(context),
+        page.createRoute(context()),
         initialState: _RouteLifecycle.add,
       );
       assert(
@@ -3334,7 +3334,7 @@ class NavigatorState extends State<Navigator> with TickerProviderStateMixin, Res
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _updateHeroController(HeroControllerScope.of(context));
+    _updateHeroController(HeroControllerScope.of(context()));
     for (final _RouteEntry entry in _history)
       entry.route.changedExternalState();
   }
@@ -3670,7 +3670,7 @@ class NavigatorState extends State<Navigator> with TickerProviderStateMixin, Res
         // route and wait for the transition delegate to decide how to add
         // it into the history.
         final _RouteEntry newEntry = _RouteEntry(
-          nextPage.createRoute(context),
+          nextPage.createRoute(context()),
           initialState: _RouteLifecycle.staging,
         );
         needsExplicitDecision = true;
@@ -5297,7 +5297,7 @@ class _AnonymousRestorationInformation extends _RestorationInformation {
 
   @override
   Route<dynamic> createRoute(NavigatorState navigator) {
-    final Route<dynamic> result = routeBuilder(navigator.context, arguments);
+    final Route<dynamic> result = routeBuilder(navigator.context(), arguments);
     assert(result != null);
     return result;
   }
@@ -5613,7 +5613,7 @@ class RestorableRouteFuture<T> extends RestorableProperty<String?> {
   bool get enabled => route?.restorationScopeId.value != null;
 
   NavigatorState get _navigator {
-    final NavigatorState navigator = navigatorFinder(state.context);
+    final NavigatorState navigator = navigatorFinder(state.context());
     assert(navigator != null);
     return navigator;
   }

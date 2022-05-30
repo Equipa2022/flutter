@@ -236,7 +236,7 @@ mixin ToggleableStateMixin<S extends StatefulWidget> on TickerProviderStateMixin
         onChanged!(false);
         break;
     }
-    context.findRenderObject()!.sendSemanticsEvent(const TapSemanticEvent());
+    context().findRenderObject()!.sendSemanticsEvent(const TapSemanticEvent());
   }
 
   void _handleTapEnd([TapUpDetails? _]) {

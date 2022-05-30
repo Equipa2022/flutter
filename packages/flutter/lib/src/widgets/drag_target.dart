@@ -532,20 +532,20 @@ class _DraggableState<T extends Object> extends State<Draggable<T>> {
     if (widget.dragAnchorStrategy == null) {
       switch (widget.dragAnchor) {
         case DragAnchor.child:
-          dragStartPoint = childDragAnchorStrategy(widget, context, position);
+          dragStartPoint = childDragAnchorStrategy(widget, context(), position);
           break;
         case DragAnchor.pointer:
-          dragStartPoint = pointerDragAnchorStrategy(widget, context, position);
+          dragStartPoint = pointerDragAnchorStrategy(widget, context(), position);
           break;
       }
     } else {
-      dragStartPoint = widget.dragAnchorStrategy!(widget, context, position);
+      dragStartPoint = widget.dragAnchorStrategy!(widget, context(), position);
     }
     setState(() {
       _activeCount += 1;
     });
     final _DragAvatar<T> avatar = _DragAvatar<T>(
-      overlayState: Overlay.of(context, debugRequiredFor: widget, rootOverlay: widget.rootOverlay)!,
+      overlayState: Overlay.of(context(), debugRequiredFor: widget, rootOverlay: widget.rootOverlay)!,
       data: widget.data,
       axis: widget.axis,
       initialPosition: position,
@@ -942,7 +942,7 @@ class _DragAvatar<T extends Object> extends Drag {
   }
 
   Widget _build(BuildContext context) {
-    final RenderBox box = overlayState.context.findRenderObject()! as RenderBox;
+    final RenderBox box = overlayState.context().findRenderObject()! as RenderBox;
     final Offset overlayTopLeft = box.localToGlobal(Offset.zero);
     return Positioned(
       left: _lastOffset!.dx - overlayTopLeft.dx,

@@ -375,7 +375,7 @@ class _ModalBottomSheetState<T> extends State<_ModalBottomSheet<T>> {
   ParametricCurve<double> animationCurve = _modalBottomSheetCurve;
 
   String _getRouteLabel(MaterialLocalizations localizations) {
-    switch (Theme.of(context).platform) {
+    switch (Theme.of(context()).platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         return '';
@@ -694,7 +694,7 @@ Future<T?> showModalBottomSheet<T>({
   final NavigatorState navigator = Navigator.of(context, rootNavigator: useRootNavigator);
   return navigator.push(_ModalBottomSheetRoute<T>(
     builder: builder,
-    capturedThemes: InheritedTheme.capture(from: context, to: navigator.context),
+    capturedThemes: InheritedTheme.capture(from: context, to: navigator.context()),
     isScrollControlled: isScrollControlled,
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
     backgroundColor: backgroundColor,

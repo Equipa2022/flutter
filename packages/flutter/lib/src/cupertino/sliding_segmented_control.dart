@@ -481,13 +481,13 @@ class _SegmentedControlState<T> extends State<CupertinoSlidingSegmentedControl<T
   // Converts local coordinate to segments. This method assumes each segment has
   // the same width.
   T segmentForXPosition(double dx) {
-    final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+    final RenderBox renderBox = context().findRenderObject()! as RenderBox;
     final int numOfChildren = widget.children.length;
     assert(renderBox.hasSize);
     assert(numOfChildren >= 2);
     int index = (dx ~/ (renderBox.size.width / numOfChildren)).clamp(0, numOfChildren - 1);
 
-    switch (Directionality.of(context)) {
+    switch (Directionality.of(context())) {
       case TextDirection.ltr:
         break;
       case TextDirection.rtl:
@@ -499,7 +499,7 @@ class _SegmentedControlState<T> extends State<CupertinoSlidingSegmentedControl<T
   }
 
   bool _hasDraggedTooFar(DragUpdateDetails details) {
-    final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+    final RenderBox renderBox = context().findRenderObject()! as RenderBox;
     assert(renderBox.hasSize);
     final Size size = renderBox.size;
     final Offset offCenter = details.localPosition - Offset(size.width/2, size.height/2);

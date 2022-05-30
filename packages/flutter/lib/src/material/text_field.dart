@@ -61,7 +61,7 @@ class _TextFieldSelectionGestureDetectorBuilder extends TextSelectionGestureDete
   @override
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
     if (delegate.selectionEnabled) {
-      switch (Theme.of(_state.context).platform) {
+      switch (Theme.of(_state.context()).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
           renderEditable.selectPositionAt(
@@ -94,7 +94,7 @@ class _TextFieldSelectionGestureDetectorBuilder extends TextSelectionGestureDete
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
     if (delegate.selectionEnabled) {
-      switch (Theme.of(_state.context).platform) {
+      switch (Theme.of(_state.context()).platform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
           renderEditable.selectPositionAt(
@@ -107,7 +107,7 @@ class _TextFieldSelectionGestureDetectorBuilder extends TextSelectionGestureDete
         case TargetPlatform.linux:
         case TargetPlatform.windows:
           renderEditable.selectWord(cause: SelectionChangedCause.longPress);
-          Feedback.forLongPress(_state.context);
+          Feedback.forLongPress(_state.context());
           break;
       }
     }
@@ -824,7 +824,7 @@ class _TextFieldState extends State<TextField> with RestorationMixin implements 
   FocusNode get _effectiveFocusNode => widget.focusNode ?? (_focusNode ??= FocusNode());
 
   MaxLengthEnforcement get _effectiveMaxLengthEnforcement => widget.maxLengthEnforcement
-    ?? LengthLimitingTextInputFormatter.getDefaultMaxLengthEnforcement(Theme.of(context).platform);
+    ?? LengthLimitingTextInputFormatter.getDefaultMaxLengthEnforcement(Theme.of(context()).platform);
 
   bool _isHovering = false;
 
@@ -856,8 +856,8 @@ class _TextFieldState extends State<TextField> with RestorationMixin implements 
   bool get _hasError => widget.decoration?.errorText != null || _hasIntrinsicError;
 
   InputDecoration _getEffectiveDecoration() {
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
-    final ThemeData themeData = Theme.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context());
+    final ThemeData themeData = Theme.of(context());
     final InputDecoration effectiveDecoration = (widget.decoration ?? const InputDecoration())
       .applyDefaults(themeData.inputDecorationTheme)
       .copyWith(
@@ -877,7 +877,7 @@ class _TextFieldState extends State<TextField> with RestorationMixin implements 
         && widget.buildCounter != null) {
       final bool isFocused = _effectiveFocusNode.hasFocus;
       final Widget? builtCounter = widget.buildCounter!(
-        context,
+        context(),
         currentLength: currentLength,
         maxLength: widget.maxLength,
         isFocused: isFocused,
@@ -935,7 +935,7 @@ class _TextFieldState extends State<TextField> with RestorationMixin implements 
   }
 
   bool get _canRequestFocus {
-    final NavigationMode mode = MediaQuery.maybeOf(context)?.navigationMode ?? NavigationMode.traditional;
+    final NavigationMode mode = MediaQuery.maybeOf(context())?.navigationMode ?? NavigationMode.traditional;
     switch (mode) {
       case NavigationMode.traditional:
         return _isEnabled;
@@ -1053,7 +1053,7 @@ class _TextFieldState extends State<TextField> with RestorationMixin implements 
       });
     }
 
-    switch (Theme.of(context).platform) {
+    switch (Theme.of(context()).platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         if (cause == SelectionChangedCause.longPress

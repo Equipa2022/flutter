@@ -543,7 +543,7 @@ class SliverReorderableListState extends State<SliverReorderableList> with Ticke
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _scrollable = Scrollable.of(context)!;
+    _scrollable = Scrollable.of(context())!;
   }
 
   @override
@@ -652,7 +652,7 @@ class SliverReorderableListState extends State<SliverReorderableList> with Ticke
     );
     _dragInfo!.startDrag();
 
-    final OverlayState overlay = Overlay.of(context)!;
+    final OverlayState overlay = Overlay.of(context())!;
     assert(_overlayEntry == null);
     _overlayEntry = OverlayEntry(builder: _dragInfo!.createProxy);
     overlay.insert(_overlayEntry!);
@@ -819,7 +819,7 @@ class SliverReorderableListState extends State<SliverReorderableList> with Ticke
       const double overDragMax = 20.0;
       const double overDragCoef = 10;
 
-      final RenderBox scrollRenderBox = _dragInfo!.scrollable!.context.findRenderObject()! as RenderBox;
+      final RenderBox scrollRenderBox = _dragInfo!.scrollable!.context().findRenderObject()! as RenderBox;
       final Offset scrollOrigin = scrollRenderBox.localToGlobal(Offset.zero);
       final double scrollStart = _offsetExtent(scrollOrigin, _scrollDirection);
       final double scrollEnd = scrollStart + _sizeExtent(scrollRenderBox.size, _scrollDirection);
@@ -862,7 +862,7 @@ class SliverReorderableListState extends State<SliverReorderableList> with Ticke
   }
 
   Offset _itemOffsetAt(int index) {
-    final RenderBox itemRenderBox =  _items[index]!.context.findRenderObject()! as RenderBox;
+    final RenderBox itemRenderBox =  _items[index]!.context().findRenderObject()! as RenderBox;
     return itemRenderBox.localToGlobal(Offset.zero);
   }
 
@@ -881,7 +881,7 @@ class SliverReorderableListState extends State<SliverReorderableList> with Ticke
     return _ReorderableItem(
       key: _ReorderableItemGlobalKey(child.key!, index, this),
       index: index,
-      capturedThemes: InheritedTheme.capture(from: context, to: overlay.context),
+      capturedThemes: InheritedTheme.capture(from: context, to: overlay.context()),
       child: child,
     );
   }
@@ -949,7 +949,7 @@ class _ReorderableItemState extends State<_ReorderableItem> {
 
   @override
   void initState() {
-    _listState = SliverReorderableList.of(context);
+    _listState = SliverReorderableList.of(context());
     _listState._registerItem(this);
     super.initState();
   }
@@ -1043,7 +1043,7 @@ class _ReorderableItemState extends State<_ReorderableItem> {
   }
 
   Rect targetGeometry() {
-    final RenderBox itemRenderBox = context.findRenderObject()! as RenderBox;
+    final RenderBox itemRenderBox = context().findRenderObject()! as RenderBox;
     final Offset itemPosition = itemRenderBox.localToGlobal(Offset.zero) + _targetOffset;
     return itemPosition & itemRenderBox.size;
   }
@@ -1171,16 +1171,16 @@ class _DragInfo extends Drag {
     this.proxyDecorator,
     required this.tickerProvider,
   }) {
-    final RenderBox itemRenderBox = item.context.findRenderObject()! as RenderBox;
+    final RenderBox itemRenderBox = item.context().findRenderObject()! as RenderBox;
     listState = item._listState;
     index = item.index;
     child = item.widget.child;
     capturedThemes = item.widget.capturedThemes;
     dragPosition = initialPosition;
     dragOffset = itemRenderBox.globalToLocal(initialPosition);
-    itemSize = item.context.size!;
+    itemSize = item.context().size!;
     itemExtent = _sizeExtent(itemSize, scrollDirection);
-    scrollable = Scrollable.of(item.context);
+    scrollable = Scrollable.of(item.context());
   }
 
   final Axis scrollDirection;
@@ -1262,7 +1262,7 @@ class _DragInfo extends Drag {
 
 Offset _overlayOrigin(BuildContext context) {
   final OverlayState overlay = Overlay.of(context)!;
-  final RenderBox overlayBox = overlay.context.findRenderObject()! as RenderBox;
+  final RenderBox overlayBox = overlay.context().findRenderObject()! as RenderBox;
   return overlayBox.localToGlobal(Offset.zero);
 }
 

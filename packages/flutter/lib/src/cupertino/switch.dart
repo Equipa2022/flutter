@@ -260,7 +260,7 @@ class _CupertinoSwitchState extends State<CupertinoSwitch> with TickerProviderSt
         ..curve = Curves.linear
         ..reverseCurve = Curves.linear;
       final double delta = details.primaryDelta! / _kTrackInnerLength;
-      switch (Directionality.of(context)) {
+      switch (Directionality.of(context())) {
         case TextDirection.rtl:
           _positionController.value -= delta;
           break;
